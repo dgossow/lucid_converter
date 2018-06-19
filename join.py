@@ -133,13 +133,15 @@ def join_vr_image(left_img_filename, right_img_filename, audio_filename=None, ou
     shutil.move(tmp_vr_filename, vr_filepath)
 
     return vr_filepath
+    
+#pano_size = 2048
 
 #join_vr_image("left_equirect.jpg", "right_equirect.jpg",
-#              output_filepath="DDtZUx5RXwL.vr_600x600_85.jpg",
-#              CroppedAreaLeftPixels = 320, CroppedAreaTopPixels=0,
-#              CroppedAreaImageWidthPixels=1280,
-#              CroppedAreaImageHeightPixels=1280,
-#              FullPanoWidthPixels=2560,
-#              FullPanoHeightPixels=1280,
-#              InitialViewHeadingDegrees=0)
+#              output_filepath="equirect_joined.jpg",
+#              CroppedAreaLeftPixels = pano_size / 4, CroppedAreaTopPixels=0,
+#              CroppedAreaImageWidthPixels = pano_size,
+#              CroppedAreaImageHeightPixels = pano_size,
+#              FullPanoWidthPixels = pano_size * 2,
+#              FullPanoHeightPixels = pano_size,
+#              InitialViewHeadingDegrees=180)
 
