@@ -11,7 +11,7 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 from subprocess import call
 
-f = 848
+f = 840 # 848
 
 # from FOV calibration
 left_R_right = [ 
@@ -20,11 +20,11 @@ left_R_right = [
   [-0.0030231, -0.0060187, 0.9999773]]
 
 # fov: 1094, 1002
-cx_left = 1094
+cx_left = 1084
 cy_left = 1102 # 1102
 
 # fov: 3251, 1108
-cx_right = 3292
+cx_right = 3282
 cy_right = 1108 #1108
 
 left_camera_matrix = [[f, 0., cx_left],
@@ -79,11 +79,13 @@ def compute_remap(pano_size, camera_matrix, dist_coeffs, R=None):
   map_x = np.zeros((pano_size, pano_size))
   map_y = np.zeros((pano_size, pano_size))
 
-  for y in range(1, pano_size -1):
-    for x in range(1, pano_size - 1):
+  for y in range(0, pano_size):
+    for x in range(0, pano_size):
       [xc, yc, zc] = equirect_unproject(pano_size, pano_size, x, y)
       if R != None:
           [xc, yc, zc] = np.matmul(left_R_right, [xc, yc, zc])
+      if (zc < 0.0001):
+        zc = 0.0001
       [x_out, y_out] = cv_project(camera_matrix, dist_coeffs, xc, yc, zc)
       map_x[y, x] = x_out
       map_y[y, x] = y_out
@@ -100,7 +102,7 @@ def render_equirect(image, map_x_32, map_y_32, out_file):
 out_path = "lucid_cardboard/"
 split_out_path = "lucid_split/"
 in_path = "lucid/"
-pano_size = 500
+pano_size = 2200
 
 if not os.path.isdir(out_path):
   os.mkdir(out_path)
